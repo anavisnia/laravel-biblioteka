@@ -16,7 +16,7 @@
                         @foreach ($authors as $author)
                         <li class="list-group-item list-line">
                             <div>
-                            <img style="width:100px; height:150px;" src="#" onerror="this.src='{{asset('img/default-img.png')}}'">
+                            <img style="width:100px; height:150px;" src="{{$author->portret}}" onerror="this.src='{{asset('img/default-img.png')}}'">
                                 {{$author->name}} {{$author->surname}}
                             </div>
                             <div class="list-line__buttons">
