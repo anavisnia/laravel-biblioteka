@@ -31,7 +31,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{-- {{ config('app.name', 'Laravel') }} --}}
-                    Puoduko Viesoji Biblioteka
+                    AV Viesoji Biblioteka
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -49,13 +49,13 @@
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{route('login')}}">{{ __('Login') }}</a>
                         </li>
                         @endif
 
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{route('register')}}">{{ __('Register') }}</a>
                         </li>
                         @endif
                         @else
@@ -64,10 +64,10 @@
                                 Authors
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('author.index') }}">
+                                <a class="dropdown-item" href="{{route('author.index')}}">
                                     Authors List
                                 </a>
-                                <a class="dropdown-item" href="{{ route('author.create') }}">
+                                <a class="dropdown-item" href="{{route('author.create')}}">
                                     New Author
                                 </a>
                             </div>
@@ -77,10 +77,10 @@
                                 Books
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('book.index') }}">
+                                <a class="dropdown-item" href="{{route('book.index')}}">
                                     Books List
                                 </a>
-                                <a class="dropdown-item" href="{{ route('book.create') }}">
+                                <a class="dropdown-item" href="{{route('book.create')}}">
                                     New Book
                                 </a>
                             </div>
@@ -90,10 +90,10 @@
                                 Publisher
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('publisher.index') }}">
+                                <a class="dropdown-item" href="{{ route('publisher.index')}}">
                                     Publishers List
                                 </a>
-                                <a class="dropdown-item" href="{{ route('publisher.create') }}">
+                                <a class="dropdown-item" href="{{route('publisher.create')}}">
                                     New publisher
                                 </a>
                             </div>

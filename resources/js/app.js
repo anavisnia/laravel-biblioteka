@@ -5,6 +5,18 @@
  */
 
 require('./bootstrap');
+
+if (document.querySelector('.book-delete')) {
+    document.querySelectorAll('.book-delete').forEach(form => {
+        form.addEventListener('submit', e => {
+            const answer = confirm('Are you sure?');
+            if (answer) {
+                return true;
+            }
+            e.preventDefault();
+        });
+    })
+}
 /*
 const deleteConfirm = () => {
 
