@@ -8,6 +8,7 @@ use App\Models\Publisher;
 use Illuminate\Http\Request;
 use Validator;
 use PDF;
+use Auth;
 
 class BookController extends Controller
 {
@@ -64,9 +65,14 @@ class BookController extends Controller
      */
     public function create()
     {
-        $authors = Author::all();
-        $publishers = Publisher::all();
-        return view('book.create', ['authors' => $authors, 'publishers' => $publishers]);
+        if (Auth::user()->role) {
+            $authors = Author::all();
+            $publishers = Publisher::all();
+            return view('book.create', ['authors' => $authors, 'publishers' => $publishers]);
+        } else {
+            abort(403, 'You do not have persmision to create a book.');
+        }
+
     }
 
     /**
@@ -77,29 +83,33 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),
-        [
-            'book_title' => ['required', 'min:3', 'max:64'],
-            'book_isbn' => ['required', 'min:3', 'max:64'],
-            'book_pages' => ['required', 'min:3', 'max:64'],
-            'book_about' => ['required', 'min:3',],
-        ]
-       );
-       if ($validator->fails()) {
-           $request->flash();
-           return redirect()->back()->withErrors($validator);
-       }
+        if (Auth::user()->role) {
+            $validator = Validator::make($request->all(),
+                [
+                    'book_title' => ['required', 'min:3', 'max:64'],
+                    'book_isbn' => ['required', 'min:3', 'max:64'],
+                    'book_pages' => ['required', 'min:3', 'max:64'],
+                    'book_about' => ['required', 'min:3',],
+                ]
+            );
+            if ($validator->fails()) {
+                $request->flash();
+                return redirect()->back()->withErrors($validator);
+            }
 
-        $book = new Book;
-        $book->title = $request->book_title;
-        $book->isbn = $request->book_isbn;
-        $book->pages = $request->book_pages;
-        $book->about = $request->book_about;
-        $book->author_id = $request->author_id;
-        $book->publisher_id = $request->publisher_id;
-        $book->save();
-        return redirect()->route('book.index')->
-        with('info_message', 'Book has been successfully created!');;
+            $book = new Book;
+            $book->title = $request->book_title;
+            $book->isbn = $request->book_isbn;
+            $book->pages = $request->book_pages;
+            $book->about = $request->book_about;
+            $book->author_id = $request->author_id;
+            $book->publisher_id = $request->publisher_id;
+            $book->save();
+            return redirect()->route('book.index')->
+            with('info_message', 'Book has been successfully created!');
+        } else {
+            return redirect()->route('book.index')->with('info_message', 'You do not have permisiion to create a book!');
+        }
     }
 
     /**

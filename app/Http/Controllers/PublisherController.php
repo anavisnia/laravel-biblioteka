@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 use Validator;
+// use View;
+// use Response;
 
 class PublisherController extends Controller
 {
@@ -68,7 +70,7 @@ class PublisherController extends Controller
         // publisher::create($request);
         Publisher::new()->refreshAndSave($request);
         return redirect()->route('publisher.index')->
-        with('success_message', 'publisher has been successfully created!');
+        with('success_message', 'Publisher has been successfully created!');
     }
 
     /**
@@ -131,10 +133,44 @@ class PublisherController extends Controller
     {
         if($publisher->publisherBooksList->count() !== 0) {
             return redirect()->route('publisher.index')->
-        with('info_message', 'publisher cannot be deleted because there are some books written!');
+        with('info_message', 'Publisher cannot be deleted because there are some books written!');
         }
         $publisher->delete();
         return redirect()->route('publisher.index')->
         with('info_message', 'publisher has been successfully deleted!');
     }
+
+    // public function getList(Request $request)
+    // {
+    //     $publishers = Publisher::all();
+    //     $list = View::make('publisher.list')->with(['publishers' => $publishers])->render();
+    //     return Response::json(
+    //         [
+    //             'html' => $list,
+    //             'message' => 'OK' // galima ne rasyt
+    //         ]
+    //     );
+    // }
+
+    // public function jsStore(Request $request)
+    // {
+    //     Publisher::new()->refreshAndSave($request);
+    //     return Response::json(
+    //         [
+    //             'message' => 'The publisher has been successfully created!',
+    //             'msgType' => 'success'
+    //         ]
+    //     );
+    // }
+
+    // public function jsDestroy(Request $request)
+    // {
+    //     Publisher::new()->refreshAndSave($request);
+    //     return Response::json(
+    //         [
+    //             'message' => 'The publisher has been successfully created!',
+    //             'msgType' => 'success'
+    //         ]
+    //     );
+    // }
 }
