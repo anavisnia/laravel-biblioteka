@@ -26,28 +26,39 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $authors = Author::all();
-
-        // FILTRAVIMAS
+        // sortinimas
         if ($request->author_id) {
-            //filtruojam
-            // $books = Book::where('author_id', $request->author_id)->get();
-            $books = Book::where('author_id', $request->author_id)->paginate(3);
+            if ($request->sort && 'asc' == $request->sort) {
+                // $books = Book::where('author_id', $request->author_id)->orderBy('title')->paginate(3);
+                $books = Book::where('author_id', $request->author_id)->orderBy('title')->get();
+                $sortBy = 'asc';
+                $books->appends(['author_id' => $request->author_id, 'sort' => 'asc']);
+            } else if($request->sort && 'desc' == $request->sort) {
+                // $books = Book::where('author_id', $request->author_id)->orderBy('title', 'desc')->paginate(3);
+                $books = Book::where('author_id', $request->author_id)->orderBy('title', 'desc')->get();
+                $sortBy = 'desc';
+                $books->appends(['author_id' => $request->author_id, 'sort' => 'desc']);
+            } else {
+                // $books = Book::where('author_id', $request->author_id)->paginate(3);
+                $books = Book::where('author_id', $request->author_id)->get();
+            }
             $filterBy = $request->author_id;
-            $books->appends(['author_id' => $request->author_id]); // tam kad butu galima filtruoti autoriaus knygas
-        } else {
-            // ne filtruojam
-            // $books = Book::all();
-            $books = Book::paginate(3);
         }
-
-        // SORT
-        // ar isvis yra && jeigu yra ir asc tai...
-        if ($request->sort && 'asc' == $request->sort) {
-            $books = $books->sortBy('title');
-            $sortBy = 'asc';
-        } elseif($request->sort && 'desc' == $request->sort) {
-            $books = $books->sortByDESC('title');
-            $sortBy = 'desc';
+        else {
+            if ($request->sort && 'asc' == $request->sort) {
+                // $books = Book::orderBy('title')->paginate(3);
+                $books = Book::orderBy('title')->get();
+                $books->appends(['sort' => 'asc']);
+                $sortBy = 'asc';
+            } else if($request->sort && 'desc' == $request->sort) {
+                // $books = Book::orderBy('title', 'desc')->paginate(3);
+                $books = Book::orderBy('title', 'desc')->get();
+                $books->appends(['sort' => 'desc']);
+                $sortBy = 'desc';
+            } else {
+                // $books = Book::paginate(3);
+                $books = Book::get();
+            }
         }
 
         return view('book.index', [

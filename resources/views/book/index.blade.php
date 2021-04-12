@@ -64,11 +64,11 @@
                         </li>
                         @endforeach
                     </ul>
-                    @if(!$sortBy)
+                    {{-- @if(!$sortBy)
                     <div class="paginator-container">
-                        {{$books->onEachSide(0)->links()}}
+                        {{$books->links()}}
                     </div>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>
